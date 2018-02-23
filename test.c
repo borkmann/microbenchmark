@@ -6,7 +6,7 @@ extern int testw (int, int, int, int);
 extern int testl (int, int, int, int);
 extern int testq (int, int, int, int);
 
-#define LOOP 3000000
+#define LOOP 3000
 
 int
 main ()
