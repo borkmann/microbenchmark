@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <x86intrin.h>
+#include "compare.h"
 
-extern int testb (int, int, int, int);
-extern int testw (int, int, int, int);
-extern int testl (int, int, int, int);
-extern int testq (int, int, int, int);
+extern int compare (BASKET **b1, BASKET **b2);
+extern int compare_nop (BASKET **b1, BASKET **b2);
 
-#define LOOP 3000
+#define LOOP 30000
+
+struct arc arc1 = { 30 };
+struct arc arc2 = { 40 };
+BASKET b1 = { &arc1, 40 };
+BASKET b2 = { &arc2, 80 };
 
 int
 main ()
@@ -14,38 +18,24 @@ main ()
   int i;
   unsigned long long start, end;
   unsigned long long diff;
+  BASKET *p1 = &b1;
+  BASKET *p2 = &b2;
 
   start = __rdtsc ();
   for (i = 0; i < LOOP; i++)
-    testb (i, i - 30, i + 4, i - 3);
+    compare (&p1, &p2);
   end = __rdtsc ();
   diff = end - start;
 
-  printf ("testb  : %lld\n", diff);
+  printf ("compare    : %lld\n", diff);
 
   start = __rdtsc ();
   for (i = 0; i < LOOP; i++)
-    testw (i, i - 30, i + 4, i - 3);
+    compare_nop (&p1, &p2);
   end = __rdtsc ();
   diff = end - start;
 
-  printf ("testw  : %lld\n", diff);
-
-  start = __rdtsc ();
-  for (i = 0; i < LOOP; i++)
-    testl (i, i - 30, i + 4, i - 3);
-  end = __rdtsc ();
-  diff = end - start;
-
-  printf ("testl  : %lld\n", diff);
-
-  start = __rdtsc ();
-  for (i = 0; i < LOOP; i++)
-    testq (i, i - 30, i + 4, i - 3);
-  end = __rdtsc ();
-  diff = end - start;
-
-  printf ("testq  : %lld\n", diff);
+  printf ("compare_nop: %lld\n", diff);
 
   return 0;
 }

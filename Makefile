@@ -1,10 +1,13 @@
 CC=gcc
-CFLAGS=-g -I. #-O2
+CFLAGS=-g -I.
+CFLAGS+=-O2
 ASFLAGS=-g
 
 EXE=test
 
-OBJS=test.o testb.o testw.o testl.o testq.o
+OBJS=test.o compare.o compare-nop.o
+
+compare-nop.o: CFLAGS += -fcf-protection
 
 all: $(EXE)
 	./$(EXE)
