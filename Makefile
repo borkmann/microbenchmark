@@ -1,13 +1,13 @@
 CC=gcc
 CFLAGS=-g -I.
-CFLAGS+=-O2
+CFLAGS+=-O2 -mindirect-branch=thunk
 ASFLAGS=-g
 
 EXE=test
 
-OBJS=test.o compare.o compare-nop.o
+OBJS=test.o switch-no-table.o switch.o
 
-compare-nop.o: CFLAGS += -fcf-protection
+switch-no-table.o switch-no-table.s: CFLAGS += -fno-jump-tables
 
 all: $(EXE)
 	./$(EXE)
