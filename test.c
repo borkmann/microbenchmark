@@ -21,18 +21,18 @@ main ()
   BASKET *p1 = &b1;
   BASKET *p2 = &b2;
 
-  start = __rdtsc ();
+  start = __rdtscp (&i);
   for (i = 0; i < LOOP; i++)
     compare (&p1, &p2);
-  end = __rdtsc ();
+  end = __rdtscp (&i);
   diff = end - start;
 
   printf ("compare    : %lld\n", diff);
 
-  start = __rdtsc ();
+  start = __rdtscp (&i);
   for (i = 0; i < LOOP; i++)
     compare_nop (&p1, &p2);
-  end = __rdtsc ();
+  end = __rdtscp (&i);
   diff = end - start;
 
   printf ("compare_nop: %lld\n", diff);
