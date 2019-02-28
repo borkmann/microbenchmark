@@ -3,7 +3,7 @@ int global;
 int
 foo (int x)
 {
-  switch (x) {
+  switch (x & 7) {
     case 0:
       return 11;
     case 1:
